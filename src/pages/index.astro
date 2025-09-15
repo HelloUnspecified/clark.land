@@ -1,0 +1,94 @@
+---
+import { getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ProfileHeader from '../components/ProfileHeader.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import FeaturedCTA from '../components/FeaturedCTA.astro';
+import LinkCard from '../components/LinkCard.astro';
+import AboutMe from '../components/AboutMe.astro';
+import ClientLogos from '../components/ClientLogos.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Footer from '../components/Footer.astro';
+
+const profileEntry = await getEntry('profile', 'clark');
+const {
+  name,
+  tagline,
+  initials,
+  avatar,
+  socialLinks = [],
+  featuredCta,
+  ctaLinks = [],
+  about,
+  testimonials = [],
+  clients = [],
+} = profileEntry?.data || {};
+---
+
+<Layout 
+  title={`${name || 'Clark Sell'} - ${tagline || 'Founder & Tech Leader'}`}
+  description={about?.bio || 'Passionate technology leader with over 15 years of experience building innovative products and leading high-performing teams. I specialize in creating scalable solutions and fostering engineering excellence.'}
+  keywords="Clark Sell, founder, tech leader, engineering, software development, unspecified, startup, technology, leadership, team building"
+  author={name || 'Clark Sell'}
+  image={about?.picture || '/profile-photo.jpg'}
+>
+  <ThemeToggle />
+  
+  <ProfileHeader
+    name={name}
+    tagline={tagline}
+    initials={initials}
+    avatar={avatar}
+  />
+
+  <!-- Social Links (Horizontal) -->
+  <SocialLinks links={socialLinks} />
+
+  <!-- Featured CTA -->
+  {featuredCta && (
+    <FeaturedCTA 
+      title={featuredCta.title}
+      href={featuredCta.href}
+      icon={featuredCta.icon}
+    />
+  )}
+
+  <!-- CTA Links (Vertical) -->
+  <div class="space-y-4">
+    {about && (
+      <AboutMe 
+        name={name || 'Clark Sell'}
+        title={about.title}
+        company={about.company}
+        bio={about.bio}
+        picture={about.picture}
+      />
+    )}
+    {
+      ctaLinks.map((link) => (
+        <LinkCard href={link.href} title={link.title} icon={link.icon} />
+      ))
+    }
+  </div>
+
+  <!-- Client Logos Section -->
+  {clients.length > 0 && (
+    <ClientLogos clients={clients} />
+  )}
+
+  <!-- Testimonials Section -->
+  {testimonials.length > 0 && (
+    <Testimonials testimonials={testimonials} />
+  )}
+
+  <!-- Share Profile Section -->
+  <ShareButtons 
+    title={`${name || 'Clark Sell'} - ${tagline}`}
+    description={about?.bio || 'Your digital hub for all things Clark'}
+    url={Astro.url.href}
+  />
+
+  <Footer />
+</Layout>

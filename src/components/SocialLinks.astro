@@ -1,0 +1,29 @@
+---
+export interface Props {
+  links: Array<{
+    title: string;
+    href: string;
+    icon: string;
+  }>;
+}
+
+const { links } = Astro.props;
+---
+
+<div class="flex justify-center space-x-4 mb-10">
+  {links.map((link) => (
+    <a 
+      href={link.href}
+      target={link.href.startsWith('http') ? '_blank' : '_self'}
+      rel={link.href.startsWith('http') ? 'noopener noreferrer' : ''}
+      class="relative w-14 h-14 bg-gray-100 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-2xl flex items-center justify-center text-gray-600 dark:text-gray-400 transition-all duration-300 ease-out will-change-transform hover:will-change-auto group"
+      title={link.title}
+      style="transform: translateZ(0);"
+    >
+      <div class="w-6 h-6 group-hover:scale-105 transition-transform duration-300 ease-out group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300" set:html={link.icon}></div>
+      
+      <!-- Hover overlay for glassmorphism -->
+      <div class="absolute inset-0 bg-transparent group-hover:bg-gray-200 dark:group-hover:bg-white/5 rounded-2xl transition-all duration-300 ease-out -z-10"></div>
+    </a>
+  ))}
+</div>

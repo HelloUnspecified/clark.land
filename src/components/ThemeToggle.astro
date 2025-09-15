@@ -1,0 +1,136 @@
+---
+// Theme toggle component for dark/light mode switching
+---
+
+<button 
+  id="theme-toggle"
+  class="fixed top-6 right-6 z-50 w-12 h-12 bg-gray-200 dark:bg-white/10 backdrop-blur-sm border border-gray-300 dark:border-white/20 rounded-full flex items-center justify-center text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-white/20 transition-all duration-300 ease-out group"
+  aria-label="Toggle theme"
+  title="Toggle dark/light mode"
+>
+  <!-- Sun icon (for light mode) -->
+  <svg 
+    id="sun-icon" 
+    class="w-5 h-5 transition-all duration-300 ease-out opacity-0 absolute" 
+    fill="none" 
+    stroke="currentColor" 
+    viewBox="0 0 24 24"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+  </svg>
+  
+  <!-- Moon icon (for dark mode) -->
+  <svg 
+    id="moon-icon" 
+    class="w-5 h-5 transition-all duration-300 ease-out opacity-100 absolute" 
+    fill="none" 
+    stroke="currentColor" 
+    viewBox="0 0 24 24"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+  </svg>
+</button>
+
+<script>
+  class ThemeManager {
+    private currentTheme: 'dark' | 'light';
+    private toggle: HTMLElement | null;
+    private sunIcon: HTMLElement | null;
+    private moonIcon: HTMLElement | null;
+
+    constructor() {
+      this.toggle = document.getElementById('theme-toggle');
+      this.sunIcon = document.getElementById('sun-icon');
+      this.moonIcon = document.getElementById('moon-icon');
+      
+      // Get initial theme from localStorage or default to dark
+      const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
+      this.currentTheme = savedTheme || 'dark';
+      
+      this.init();
+    }
+
+    private init() {
+      // Apply initial theme
+      this.applyTheme(this.currentTheme);
+      
+      // Add click event listener
+      this.toggle?.addEventListener('click', () => {
+        this.toggleTheme();
+      });
+      
+      // Listen for system theme changes
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      mediaQuery.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          this.currentTheme = e.matches ? 'dark' : 'light';
+          this.applyTheme(this.currentTheme);
+        }
+      });
+    }
+
+    private toggleTheme() {
+      this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+      this.applyTheme(this.currentTheme);
+      localStorage.setItem('theme', this.currentTheme);
+    }
+
+    private applyTheme(theme: 'dark' | 'light') {
+      const html = document.documentElement;
+      
+      if (theme === 'dark') {
+        html.classList.add('dark');
+        this.updateIcons('dark');
+      } else {
+        html.classList.remove('dark');
+        this.updateIcons('light');
+      }
+    }
+
+    private updateIcons(theme: 'dark' | 'light') {
+      if (!this.sunIcon || !this.moonIcon) return;
+      
+      if (theme === 'dark') {
+        this.sunIcon.style.opacity = '0';
+        this.moonIcon.style.opacity = '1';
+        this.sunIcon.style.transform = 'rotate(180deg) scale(0.8)';
+        this.moonIcon.style.transform = 'rotate(0deg) scale(1)';
+      } else {
+        this.sunIcon.style.opacity = '1';
+        this.moonIcon.style.opacity = '0';
+        this.sunIcon.style.transform = 'rotate(0deg) scale(1)';
+        this.moonIcon.style.transform = 'rotate(-180deg) scale(0.8)';
+      }
+    }
+  }
+
+  // Initialize theme manager when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new ThemeManager();
+  });
+
+  // Re-initialize on navigation (for SPA-like behavior)
+  document.addEventListener('astro:page-load', () => {
+    new ThemeManager();
+  });
+</script>
+
+<style>
+  /* Ensure smooth transitions on the toggle button */
+  #theme-toggle {
+    transition: all 0.3s ease-out;
+  }
+  
+  #theme-toggle:hover {
+    transform: scale(1.05);
+  }
+  
+  #theme-toggle:active {
+    transform: scale(0.95);
+  }
+  
+  /* Icon animations */
+  #sun-icon, #moon-icon {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+</style>
