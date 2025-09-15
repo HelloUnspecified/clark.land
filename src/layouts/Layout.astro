@@ -1,0 +1,137 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  author?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = 'Clark.Land - Your digital hub for all things Clark',
+  keywords = 'Clark Sell, founder, tech leader, engineering, development, unspecified, digital hub',
+  author = 'Clark Sell',
+  image = '/profile-photo.jpg',
+  canonical = Astro.url.href,
+} = Astro.props;
+
+// Generate structured data for better AI understanding
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Clark Sell",
+  "jobTitle": "Founder & Tech Leader",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Unspecified"
+  },
+  "description": description,
+  "url": canonical,
+  "image": image,
+  "sameAs": [
+    "https://twitter.com/clarksell", // Update with real URLs
+    "https://linkedin.com/in/clarksell",
+    "https://github.com/clarksell"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "hello@clark.land",
+    "contactType": "professional"
+  }
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={author} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Clark.Land" />
+    <meta property="profile:first_name" content="Clark" />
+    <meta property="profile:last_name" content="Sell" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonical} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url).href} />
+    <meta name="twitter:creator" content="@clarksell" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#111827" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Structured Data for AI/Search Engines -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    
+    <!-- AI Optimization Meta Tags -->
+    <meta name="ai:purpose" content="Professional profile and digital hub for Clark Sell, founder and tech leader" />
+    <meta name="ai:content_type" content="personal_brand_profile" />
+    <meta name="ai:expertise" content="technology leadership, software engineering, team building, product development" />
+    <script>
+      // Prevent flash by setting theme immediately - default to dark
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const theme = savedTheme || 'dark'; // Always default to dark
+        
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Prevent flash of light theme by starting with dark background */
+      html {
+        background-color: #111827; /* gray-900 */
+      }
+      
+      /* Light mode background */
+      html:not(.dark) {
+        background-color: #f9fafb; /* gray-50 */
+      }
+      
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-feature-settings: "kern" 1;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen antialiased transition-colors duration-300">
+    <div class="container mx-auto px-4 py-8 max-w-md">
+      <slot />
+    </div>
+  </body>
+</html>

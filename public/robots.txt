@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# AI Crawlers - Explicitly allow for better AI understanding
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Sitemap location
+Sitemap: https://clark.land/sitemap.xml
+
+# Crawl delay for better server performance
+Crawl-delay: 1

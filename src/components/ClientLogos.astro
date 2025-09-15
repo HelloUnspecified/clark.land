@@ -1,0 +1,71 @@
+---
+export interface Client {
+  name: string;
+  logo: string;
+  website?: string;
+}
+
+export interface Props {
+  clients: Client[];
+}
+
+const { clients } = Astro.props;
+---
+
+{clients.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-gray-900 dark:text-white text-xl font-semibold mb-8 mt-8 text-center transition-colors duration-300">Trusted By</h2>
+    
+    <div class="bg-gray-100 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-2xl p-8 transition-colors duration-300">
+      <div class="grid grid-cols-3 gap-8 items-center">
+        {clients.slice(0, 6).map((client) => (
+          <div class="flex justify-center items-center group">
+            {client.website ? (
+              <a 
+                href={client.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex justify-center items-center w-full h-16 transition-all duration-300 ease-out"
+                title={client.name}
+              >
+                <img
+                  src={client.logo}
+                  alt={`${client.name} logo`}
+                  class="max-w-full max-h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300 filter grayscale group-hover:grayscale-0"
+                />
+              </a>
+            ) : (
+              <div class="flex justify-center items-center w-full h-16">
+                <img
+                  src={client.logo}
+                  alt={`${client.name} logo`}
+                  class="max-w-full max-h-12 object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0"
+                />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  /* Ensure logos are properly centered and sized */
+  .grid img {
+    max-width: 120px;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    
+    .grid img {
+      max-width: 80px;
+      max-height: 2rem;
+    }
+  }
+</style>
