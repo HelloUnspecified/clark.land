@@ -17,7 +17,7 @@ const firstTestimonial = testimonials[0];
 
 {firstTestimonial && (
   <div class="mb-8">
-    <h2 class="text-gray-900 dark:text-white text-xl font-semibold mb-8 mt-8 text-center transition-colors duration-300">What Founders Are Saying</h2>
+    <h2 class="text-h3 font-display font-medium optical-medium text-gray-900 dark:text-white mb-8 mt-8 text-center transition-colors duration-300">What People Are Saying</h2>
     
     <button 
       id="testimonials-button"
@@ -39,16 +39,16 @@ const firstTestimonial = testimonials[0];
           )}
           
           <div class="flex-1 text-left">
-            <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3 line-clamp-3">"{firstTestimonial.quote}"</p>
+            <p class="text-sm font-body font-normal leading-relaxed text-gray-600 dark:text-gray-300 mb-3 line-clamp-3">"{firstTestimonial.quote}"</p>
             <div>
-              <p class="text-gray-900 dark:text-white font-medium text-sm">{firstTestimonial.name}</p>
-              <p class="text-gray-500 dark:text-gray-400 text-xs">{firstTestimonial.role} at {firstTestimonial.company}</p>
+              <p class="font-body font-medium text-gray-900 dark:text-white text-sm">{firstTestimonial.name}</p>
+              <p class="text-sm font-body font-normal text-gray-500 dark:text-gray-400">{firstTestimonial.role} at {firstTestimonial.company}</p>
             </div>
           </div>
         </div>
         
         <div class="flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300 mt-4 pt-4 border-t border-gray-200 dark:border-white/5">
-          <span class="text-xs mr-2">View all testimonials</span>
+          <span class="text-sm font-body font-normal mr-2">View all testimonials</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
@@ -91,18 +91,18 @@ const firstTestimonial = testimonials[0];
                 />
               ) : (
                 <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full mx-auto mb-2 sm:mb-3 lg:mb-4 flex items-center justify-center border border-gray-700">
-                  <span class="text-white text-lg sm:text-xl lg:text-2xl font-light tracking-wide">{testimonial.name.charAt(0)}</span>
+                  <span class="text-white text-lg sm:text-xl lg:text-2xl font-body font-light tracking-wide">{testimonial.name.charAt(0)}</span>
                 </div>
               )}
               
-              <h2 class="text-gray-900 dark:text-white text-base sm:text-lg lg:text-xl font-bold tracking-tight mb-1">{testimonial.name}</h2>
-              <p class="text-gray-700 dark:text-gray-300 text-xs sm:text-sm lg:text-base font-medium mb-1">{testimonial.role}</p>
-              <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm lg:text-sm mb-2 sm:mb-3 lg:mb-4">{testimonial.company}</p>
+              <h2 class="text-h4 font-display font-semibold text-gray-900 dark:text-white mb-1">{testimonial.name}</h2>
+              <p class="font-body font-medium text-gray-700 dark:text-gray-300 text-sm mb-1">{testimonial.role}</p>
+              <p class="text-sm font-body font-normal text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 lg:mb-4">{testimonial.company}</p>
             </div>
             
             <!-- Quote section with proper scrolling -->
             <div class="flex-1 min-h-0 flex flex-col">
-              <blockquote class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base italic overflow-y-auto flex-1 pr-2 text-left">
+              <blockquote class="text-base font-body font-normal leading-relaxed text-gray-600 dark:text-gray-300 italic overflow-y-auto flex-1 pr-2 text-left">
                 <div class="min-h-full flex items-start">
                   <p>"{testimonial.quote}"</p>
                 </div>
@@ -123,12 +123,12 @@ const firstTestimonial = testimonials[0];
         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
-        <span class="text-xs sm:text-sm font-medium hidden sm:inline">Previous</span>
-        <span class="text-xs sm:text-sm font-medium sm:hidden">Prev</span>
+        <span class="text-sm font-body font-medium hidden sm:inline">Previous</span>
+        <span class="text-sm font-body font-medium sm:hidden">Prev</span>
       </button>
       
       <!-- Counter display -->
-      <div class="flex items-center space-x-1 sm:space-x-2 text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+      <div class="flex items-center space-x-1 sm:space-x-2 text-gray-500 dark:text-gray-400 text-sm font-body">
         <span id="current-counter">1</span>
         <span>/</span>
         <span id="total-counter">{testimonials.length}</span>
@@ -138,8 +138,8 @@ const firstTestimonial = testimonials[0];
         id="next-testimonial" 
         class="flex items-center space-x-1 sm:space-x-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span class="text-xs sm:text-sm font-medium hidden sm:inline">Next</span>
-        <span class="text-xs sm:text-sm font-medium sm:hidden">Next</span>
+        <span class="text-sm font-body font-medium hidden sm:inline">Next</span>
+        <span class="text-sm font-body font-medium sm:hidden">Next</span>
         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
@@ -252,6 +252,42 @@ const firstTestimonial = testimonials[0];
         }
       }
     });
+
+    // Touch/Swipe navigation for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50; // Minimum distance for a swipe
+
+    const cardsContainer = document.querySelector('.testimonial-cards-container');
+
+    if (cardsContainer) {
+      cardsContainer.addEventListener('touchstart', (e) => {
+        if (modal?.classList.contains('flex')) {
+          touchStartX = e.changedTouches[0].screenX;
+        }
+      }, { passive: true });
+
+      cardsContainer.addEventListener('touchend', (e) => {
+        if (modal?.classList.contains('flex')) {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }
+      }, { passive: true });
+    }
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+
+      if (Math.abs(swipeDistance) > minSwipeDistance) {
+        if (swipeDistance > 0) {
+          // Swipe right - go to previous
+          showPrev();
+        } else {
+          // Swipe left - go to next
+          showNext();
+        }
+      }
+    }
   });
 </script>
 
