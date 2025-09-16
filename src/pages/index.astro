@@ -27,45 +27,62 @@ const {
 } = profileEntry?.data || {};
 ---
 
-<Layout 
+<Layout
   title={`${name || 'Clark Sell'} - ${tagline || 'Founder & Tech Leader'}`}
-  description={about?.bio || 'Passionate technology leader with over 15 years of experience building innovative products and leading high-performing teams. I specialize in creating scalable solutions and fostering engineering excellence.'}
+  description={about?.bio ||
+    'Passionate technology leader with over 15 years of experience building innovative products and leading high-performing teams. I specialize in creating scalable solutions and fostering engineering excellence.'}
   keywords="Clark Sell, founder, tech leader, engineering, software development, unspecified, startup, technology, leadership, team building"
   author={name || 'Clark Sell'}
   image={about?.picture || '/profile-photo.jpg'}
 >
   <ThemeToggle />
-  
+
   <ProfileHeader
     name={name}
     tagline={tagline}
     initials={initials}
-    avatar={avatar}
+    avatar={about?.picture}
   />
 
   <!-- Social Links (Horizontal) -->
   <SocialLinks links={socialLinks} />
 
+  <!-- Strategy Call Description -->
+  <div class="mb-6 text-center">
+    <p class="text-gray-700 dark:text-gray-300 text-base leading-relaxed max-w-md mx-auto">
+      I help founders and tech leaders navigate complex challenges, build high-performing teams, and create scalable solutions. Let's discuss how I can support your journey.
+    </p>
+  </div>
+
   <!-- Featured CTA -->
-  {featuredCta && (
-    <FeaturedCTA 
-      title={featuredCta.title}
-      href={featuredCta.href}
-      icon={featuredCta.icon}
-    />
-  )}
+  {
+    featuredCta && (
+      <div class="mt-6">
+        <FeaturedCTA
+          title={featuredCta.title}
+          href={featuredCta.href}
+          icon={featuredCta.icon}
+        />
+      </div>
+    )
+  }
 
   <!-- CTA Links (Vertical) -->
   <div class="space-y-4">
-    {about && (
-      <AboutMe 
-        name={name || 'Clark Sell'}
-        title={about.title}
-        company={about.company}
-        bio={about.bio}
-        picture={about.picture}
-      />
-    )}
+    {
+      about && (
+        <div class="mt-16">
+          <AboutMe
+            name={name || 'Clark Sell'}
+            title={about.title}
+            company={about.company}
+            bio={about.bio}
+            picture={about.picture}
+          />
+        </div>
+      )
+    }
+
     {
       ctaLinks.map((link) => (
         <LinkCard href={link.href} title={link.title} icon={link.icon} />
@@ -74,21 +91,31 @@ const {
   </div>
 
   <!-- Client Logos Section -->
-  {clients.length > 0 && (
-    <ClientLogos clients={clients} />
-  )}
+  {
+    clients.length > 0 && (
+      <div class="mt-16">
+        <ClientLogos clients={clients} />
+      </div>
+    )
+  }
 
   <!-- Testimonials Section -->
-  {testimonials.length > 0 && (
-    <Testimonials testimonials={testimonials} />
-  )}
+  {
+    testimonials.length > 0 && (
+      <div class="mt-16">
+        <Testimonials testimonials={testimonials} />
+      </div>
+    )
+  }
 
   <!-- Share Profile Section -->
-  <ShareButtons 
-    title={`${name || 'Clark Sell'} - ${tagline}`}
-    description={about?.bio || 'Your digital hub for all things Clark'}
-    url={Astro.url.href}
-  />
+  <div class="mt-16">
+    <ShareButtons
+      title={`${name || 'Clark Sell'} - ${tagline}`}
+      description={about?.bio || 'Your digital hub for all things Clark'}
+      url={Astro.url.href}
+    />
+  </div>
 
   <Footer />
 </Layout>
