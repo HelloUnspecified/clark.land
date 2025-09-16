@@ -8,25 +8,21 @@ export interface Props {
 const { title, href, icon } = Astro.props;
 ---
 
-<div class="mb-8">
+<div class="mt-8 mb-8">
   <div class="relative rounded-2xl p-[2px] transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl group">
     <!-- Animated gradient border -->
     <div class="absolute inset-0 rounded-2xl animate-gradient-x"></div>
     
     <!-- Content -->
-    <a 
+    <a
       href={href}
       target={href.startsWith('http') ? '_blank' : '_self'}
       rel={href.startsWith('http') ? 'noopener noreferrer' : ''}
-      class="relative block bg-gradient-to-br from-slate-800 via-slate-900 to-purple-900/80 backdrop-blur-sm rounded-2xl px-8 py-6 flex items-center justify-center space-x-4 hover:from-slate-700 hover:via-slate-800 hover:to-purple-800/90 transition-all duration-300"
+      class="relative flex bg-gradient-to-br from-slate-800 via-slate-900 to-purple-900/80 backdrop-blur-sm rounded-2xl px-8 py-6 items-center justify-center hover:from-slate-700 hover:via-slate-800 hover:to-purple-800/90 transition-all duration-300"
     >
-      <div class="w-8 h-8 text-white flex-shrink-0" set:html={icon}></div>
-      <span class="text-white text-xl font-semibold text-center leading-tight">{title}</span>
-      <div class="w-6 h-6 text-white/60 flex-shrink-0">
-        <svg fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-        </svg>
-      </div>
+      <span class="text-xl sm:text-2xl font-display font-bold uppercase tracking-wide text-white text-center leading-tight">
+        🚀<span class="ml-3">Book a Strategy Call</span>
+      </span>
     </a>
   </div>
   
