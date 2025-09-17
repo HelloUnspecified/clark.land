@@ -5,6 +5,7 @@ import ProfileHeader from '../components/ProfileHeader.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import FeaturedCTA from '../components/FeaturedCTA.astro';
 import LinkCard from '../components/LinkCard.astro';
+import NumberedLinkCard from '../components/NumberedLinkCard.astro';
 import AboutMe from '../components/AboutMe.astro';
 import ClientLogos from '../components/ClientLogos.astro';
 import Testimonials from '../components/Testimonials.astro';
@@ -17,9 +18,11 @@ const {
   name,
   tagline,
   initials,
-  avatar,
+  what,
+  keywords,
   socialLinks = [],
   featuredCta,
+  numberedCtaLinks = [],
   ctaLinks = [],
   about,
   testimonials = [],
@@ -31,7 +34,7 @@ const {
   title={`${name || 'Clark Sell'} - ${tagline || 'Founder & Tech Leader'}`}
   description={about?.bio ||
     'Passionate technology leader with over 15 years of experience building innovative products and leading high-performing teams. I specialize in creating scalable solutions and fostering engineering excellence.'}
-  keywords="Clark Sell, founder, tech leader, engineering, software development, unspecified, startup, technology, leadership, team building"
+  keywords={keywords}
   author={name || 'Clark Sell'}
   image={about?.picture || '/profile-photo.jpg'}
 >
@@ -71,8 +74,30 @@ const {
     )
   }
 
+  <!-- Numbered CTA Links -->
+  {
+    numberedCtaLinks.length > 0 && (
+      <div class="space-y-4 mb-4">
+        {
+          numberedCtaLinks.map((link, index) => (
+            <NumberedLinkCard
+              href={link.href}
+              title={link.title}
+              number={index + 1}
+            />
+          ))
+        }
+      </div>
+    )
+  }
+
   <!-- CTA Links (Vertical) -->
   <div class="space-y-4">
+    {
+      ctaLinks.map((link) => (
+        <LinkCard href={link.href} title={link.title} icon={link.icon} />
+      ))
+    }
     {
       about && (
         <div class="mt-16">
@@ -85,12 +110,6 @@ const {
           />
         </div>
       )
-    }
-
-    {
-      ctaLinks.map((link) => (
-        <LinkCard href={link.href} title={link.title} icon={link.icon} />
-      ))
     }
   </div>
 

@@ -1,4 +1,6 @@
 ---
+import LinkButton from './LinkButton.astro';
+
 export interface Props {
   name: string;
   title: string;
@@ -10,61 +12,87 @@ export interface Props {
 const { name, title, company, bio, picture } = Astro.props;
 ---
 
-<button 
-  id="about-me-button"
-  class="relative block w-full bg-gray-100 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-2xl px-6 py-5 text-gray-900 dark:text-white transition-all duration-300 ease-out will-change-transform hover:will-change-auto group"
-  style="transform: translateZ(0);"
->
-  <div class="flex items-center justify-between group-hover:scale-[1.01] transition-transform duration-300 ease-out">
-    <div class="flex items-center">
-      <div class="w-5 h-5 mr-4 text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
-        <svg fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-        </svg>
-      </div>
-      <span class="font-body font-semibold text-lg tracking-tighter group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">About Me</span>
-    </div>
-    <svg class="w-5 h-5 text-gray-500 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+<LinkButton as="button" id="about-me-button">
+  <div slot="icon" class="w-8 h-8 mr-4 flex items-center justify-center text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+      <path
+        fill-rule="evenodd"
+        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+        clip-rule="evenodd"></path>
     </svg>
   </div>
-  
-  <!-- Hover overlay for better glassmorphism -->
-  <div class="absolute inset-0 bg-white/0 group-hover:bg-white/5 rounded-2xl transition-all duration-300 ease-out -z-10"></div>
-</button>
+  <span slot="title" class="font-body font-semibold text-lg tracking-tighter group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-300">About Me</span>
+</LinkButton>
 
 <!-- Modal -->
-<div id="about-me-modal" class="fixed inset-0 bg-black/80 dark:bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-3xl max-w-lg w-full mx-auto overflow-hidden">
+<div
+  id="about-me-modal"
+  class="fixed inset-0 bg-black/80 dark:bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4"
+>
+  <div
+    class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-3xl max-w-lg w-full mx-auto overflow-hidden"
+  >
     <!-- Modal Header -->
     <div class="flex justify-end p-4">
-      <button id="close-modal" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      <button
+        id="close-modal"
+        class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     </div>
-    
+
     <!-- Modal Content -->
     <div class="px-4 sm:px-6 md:px-8 pb-4 sm:pb-6 md:pb-8 text-center">
-      {picture ? (
-        <img
-          src={picture}
-          alt={`${name} photo`}
-          class="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 object-cover border-2 border-gray-700"
-        />
-      ) : (
-        <div class="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center border border-gray-700">
-          <span class="text-white text-2xl sm:text-4xl font-body font-light tracking-wide">{name.charAt(0)}</span>
-        </div>
-      )}
-      
-      <h2 class="text-h2 font-display font-semibold optical-large text-gray-900 dark:text-white mb-2">{name}</h2>
-      <p class="text-lead font-body font-medium text-gray-700 dark:text-gray-300 mb-1">{title}</p>
-      <p class="font-body font-normal text-gray-500 dark:text-gray-400 mb-4 sm:mb-6">{company}</p>
-      
+      {
+        picture ? (
+          <img
+            src={picture}
+            alt={`${name} photo`}
+            class="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-4 sm:mb-6 object-cover border-2 border-gray-700"
+          />
+        ) : (
+          <div class="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center border border-gray-700">
+            <span class="text-white text-2xl sm:text-4xl font-body font-light tracking-wide">
+              {name.charAt(0)}
+            </span>
+          </div>
+        )
+      }
+
+      <h2
+        class="text-h2 font-display font-semibold optical-large text-gray-900 dark:text-white mb-2"
+      >
+        {name}
+      </h2>
+      <p
+        class="text-lead font-body font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        {title}
+      </p>
+      <p
+        class="font-body font-normal text-gray-500 dark:text-gray-400 mb-4 sm:mb-6"
+      >
+        {company}
+      </p>
+
       <div class="text-left">
-        <p class="font-body font-normal leading-loose max-w-prose text-gray-600 dark:text-gray-300">{bio}</p>
+        <p
+          class="font-body font-normal leading-loose max-w-prose text-gray-600 dark:text-gray-300"
+        >
+          {bio}
+        </p>
       </div>
     </div>
   </div>

@@ -10,36 +10,36 @@ export interface Props {
 
 const {
   title,
-  description = 'Clark.Land - Your digital hub for all things Clark',
-  keywords = 'Clark Sell, founder, tech leader, engineering, development, unspecified, digital hub',
+  description = 'Clark Sell - The linked list for Clark Sell on the internet.',
+  keywords = 'Clark Sell, Unspecified Software Co, systems, process, engineering, software development, AI, AI Native',
   author = 'Clark Sell',
-  image = '/profile-photo.jpg',
+  image = '/assets/Clark-Sell.png',
   canonical = Astro.url.href,
 } = Astro.props;
 
 // Generate structured data for better AI understanding
 const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Clark Sell",
-  "jobTitle": "Founder & Tech Leader",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Unspecified"
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Clark Sell',
+  jobTitle: 'Founder, Engineer and Strategist',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Unspecified',
   },
-  "description": description,
-  "url": canonical,
-  "image": image,
-  "sameAs": [
-    "https://twitter.com/clarksell", // Update with real URLs
-    "https://linkedin.com/in/clarksell",
-    "https://github.com/clarksell"
+  description: description,
+  url: canonical,
+  image: image,
+  sameAs: [
+    'https://twitter.com/theclarksell', // Update with real URLs
+    'https://linkedin.com/in/theclarksell',
+    'https://github.com/theclarksell',
   ],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "hello@clark.land",
-    "contactType": "professional"
-  }
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'hello@unspecified.io',
+    contactType: 'professional',
+  },
 };
 ---
 
@@ -49,7 +49,7 @@ const structuredData = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
@@ -58,7 +58,7 @@ const structuredData = {
     <meta name="author" content={author} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonical} />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={canonical} />
@@ -70,33 +70,42 @@ const structuredData = {
     <meta property="og:site_name" content="Clark.Land" />
     <meta property="profile:first_name" content="Clark" />
     <meta property="profile:last_name" content="Sell" />
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonical} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url).href} />
-    <meta name="twitter:creator" content="@clarksell" />
-    
+    <meta name="twitter:creator" content="@theclarksell" />
+
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#111827" />
     <meta name="color-scheme" content="dark light" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    
+
     <!-- Structured Data for AI/Search Engines -->
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+
     <!-- AI Optimization Meta Tags -->
-    <meta name="ai:purpose" content="Professional profile and digital hub for Clark Sell, founder and tech leader" />
+    <meta
+      name="ai:purpose"
+      content="Professional profile and digital hub for Clark Sell, founder and tech leader"
+    />
     <meta name="ai:content_type" content="personal_brand_profile" />
-    <meta name="ai:expertise" content="technology leadership, software engineering, team building, product development" />
+    <meta
+      name="ai:expertise"
+      content="technology leadership, software engineering, team building, product development"
+    />
     <script is:inline>
       // Prevent flash by setting theme immediately - default to dark
-      (function() {
+      (function () {
         const savedTheme = localStorage.getItem('theme');
         const theme = savedTheme || 'dark'; // Always default to dark
-        
+
         if (theme === 'dark') {
           document.documentElement.classList.add('dark');
         } else {
@@ -121,21 +130,46 @@ const structuredData = {
       }
 
       body {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
-        font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1, "cv02" 1, "ss01" 1;
+        font-feature-settings:
+          'kern' 1,
+          'liga' 1,
+          'calt' 1,
+          'cv01' 1,
+          'cv02' 1,
+          'ss01' 1;
       }
 
       /* Optical sizing for Bricolage Grotesque variable font */
-      .optical-display { font-variation-settings: "opsz" 48; }
-      .optical-large { font-variation-settings: "opsz" 36; }
-      .optical-medium { font-variation-settings: "opsz" 24; }
-      .optical-small { font-variation-settings: "opsz" 16; }
+      .optical-display {
+        font-variation-settings: 'opsz' 48;
+      }
+      .optical-large {
+        font-variation-settings: 'opsz' 36;
+      }
+      .optical-medium {
+        font-variation-settings: 'opsz' 24;
+      }
+      .optical-small {
+        font-variation-settings: 'opsz' 16;
+      }
 
       /* Tabular numbers for data display */
-      .tabular-nums { font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "tnum" 1; }
+      .tabular-nums {
+        font-feature-settings:
+          'kern' 1,
+          'liga' 1,
+          'calt' 1,
+          'tnum' 1;
+      }
 
       /* Accessibility */
       @media (prefers-reduced-motion: reduce) {
@@ -147,7 +181,9 @@ const structuredData = {
       }
     </style>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 min-h-screen antialiased transition-colors duration-300">
+  <body
+    class="bg-gray-50 dark:bg-gray-900 min-h-screen antialiased transition-colors duration-300"
+  >
     <div class="container mx-auto px-4 py-8 max-w-md">
       <slot />
     </div>
