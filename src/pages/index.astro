@@ -55,9 +55,7 @@ const {
     <p
       class="text-gray-700 dark:text-gray-300 text-base leading-relaxed max-w-md mx-auto"
     >
-      I help founders and tech leaders navigate complex challenges, build
-      high-performing teams, and create scalable solutions. Let's discuss how I
-      can support your journey.
+      {what}
     </p>
   </div>
 
@@ -78,15 +76,13 @@ const {
   {
     numberedCtaLinks.length > 0 && (
       <div class="space-y-4 mb-8">
-        {
-          numberedCtaLinks.map((link, index) => (
-            <NumberedLinkCard
-              href={link.href}
-              title={link.title}
-              number={index + 1}
-            />
-          ))
-        }
+        {numberedCtaLinks.map((link, index) => (
+          <NumberedLinkCard
+            href={link.href}
+            title={link.title}
+            number={index + 1}
+          />
+        ))}
       </div>
     )
   }
@@ -95,7 +91,7 @@ const {
   {
     numberedCtaLinks.length > 0 && ctaLinks.length > 0 && (
       <div class="flex items-center my-8">
-        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
+        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent" />
       </div>
     )
   }
