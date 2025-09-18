@@ -8,6 +8,8 @@ export interface Props {
   canonical?: string;
 }
 
+import PostHog from '../components/PostHog.astro'
+
 const {
   title,
   description = 'Clark Sell - The linked list for Clark Sell on the internet.',
@@ -179,6 +181,7 @@ const structuredData = {
           transition-duration: 0.01ms !important;
         }
       }
+      <PostHog />
     </style>
   </head>
   <body
