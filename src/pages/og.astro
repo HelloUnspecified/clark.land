@@ -1,0 +1,59 @@
+---
+/**
+ * The social card, rendered as a page so it uses the real fonts, tokens and pictures. Not linked, not indexed.
+ * `npm run og` (with the dev server running) screenshots it into public/og.png at 1200×630.
+ */
+import '../styles/global.css';
+import { Image } from 'astro:assets';
+import Ring from '../components/Ring.astro';
+import today from '../assets/shots/01-today.png';
+import proposal from '../assets/shots/02b-proposal.png';
+import widget from '../assets/shots/widget-landing-large.png';
+import couple from '../assets/photos/clark-and-carrie.jpg';
+import portrait from '../assets/clark.webp';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>og</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex h-[630px] w-[1200px] flex-col justify-between px-16 pt-14 pb-0">
+      <div class="flex items-start justify-between">
+        <div>
+          <h1 class="font-heading text-[150px] leading-[0.85] font-bold tracking-[-0.045em]">Clark Sell</h1>
+          <p class="mt-7 text-[34px] leading-tight text-ink">I'm passionate about health and relationships.</p>
+          <p class="mt-5 flex items-center gap-6 text-[26px] text-soft">
+            <span class="flex items-center gap-2.5"><Ring size="28px" /> <span class="font-heading font-semibold text-ink">Residual</span> out now</span>
+            <span class="flex items-center gap-2.5">
+              <svg width="34" height="21" viewBox="0 0 64 40" fill="none" aria-hidden="true">
+                <path d="M18.5 6.2c4.1 0 7 6.4 7 14.1 0 7.7-2.9 13.9-7 13.9s-7-6.2-7-13.9c0-7.7 2.9-14.1 7-14.1Z" fill="#C2664D"></path>
+                <path d="M39.5 6.2c4.1 0 7 6.4 7 14.1 0 7.7-2.9 13.9-7 13.9s-7-6.2-7-13.9c0-7.7 2.9-14.1 7-14.1Z" fill="#9A4352"></path>
+              </svg>
+              <span class="font-heading font-semibold text-ink">Troth</span> coming soon
+            </span>
+          </p>
+        </div>
+        <Image src={portrait} alt="" width={300} class="size-[150px] object-cover object-[50%_35%]" loading="eager" />
+      </div>
+      <div class="flex h-[200px] items-start gap-2.5 overflow-hidden">
+        <Image src={today} alt="" height={480} class="h-[300px] w-auto" loading="eager" />
+        <Image src={widget} alt="" height={480} class="h-[300px] w-auto" loading="eager" />
+        <Image src={proposal} alt="" height={480} class="h-[300px] w-auto" loading="eager" />
+        <Image src={couple} alt="" height={480} class="h-[300px] w-auto" loading="eager" />
+      </div>
+    </div>
+  </body>
+</html>

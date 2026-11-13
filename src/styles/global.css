@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Two faces, four files: Inter Tight for the name and headings, Inter for everything else. */
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/inter-tight/latin-600.css";
+@import "@fontsource/inter-tight/latin-700.css";
+
+@theme {
+  --font-body: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Inter Tight", Inter, ui-sans-serif, system-ui, sans-serif;
+
+  /*
+   * Unspecified brand, set warm and light: a bone paper ground, ink text, the photographs as the colour.
+   * One accent (red), on the primary action only.
+   */
+  --color-ground: #f0eee9; /* bone paper */
+  --color-surface: #e6e3dc; /* one tone step down, for cards and fields */
+  --color-surface-2: #d9d5cc;
+  --color-ink: #1b1a18; /* us-ink, warmed */
+  --color-soft: #66615a; /* 5.9:1 on the ground */
+  --color-accent: #ce3240; /* us-red */
+  --color-accent-deep: #a8202e;
+
+  /* Five sizes, no more. */
+  --text-small: 0.875rem; /* 14 */
+  --text-small--line-height: 1.45;
+  --text-body: 1.0625rem; /* 17 */
+  --text-body--line-height: 1.55;
+  --text-lead: 1.375rem; /* 22 */
+  --text-lead--line-height: 1.3;
+  --text-head: 1.75rem; /* 28 */
+  --text-head--line-height: 1.1;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.55;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: white;
+  }
+  a,
+  button,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /*
+   * Entrances. The hidden state only applies once JS has set html.js, so nothing is ever lost without it.
+   * Parts of a section arrive in reading order; --i sets each part's place in the stagger.
+   */
+  html.js [data-in] {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  html.js [data-in].is-in {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 800ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 75ms);
+  }
+  /* Pictures settle from a slight scale inside their frame instead of rising. */
+  html.js [data-in="picture"] {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js [data-in],
+    html.js [data-in="picture"] {
+      opacity: 1;
+      transform: none;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      transition-duration: 1ms !important;
+    }
+  }
+}
+
+/* The first screen arrives once on load: byline, promise, then the two apps. CSS only. */
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+@utility arrive {
+  animation: arrive 900ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}

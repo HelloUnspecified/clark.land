@@ -1,194 +1,101 @@
 ---
+import '../styles/global.css';
+import PostHog from '../components/PostHog.astro';
+import interTight700 from '@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url';
+import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
+
 export interface Props {
   title: string;
-  description?: string;
+  description: string;
   keywords?: string;
-  author?: string;
   image?: string;
-  canonical?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
-import PostHog from '../components/PostHog.astro';
-
-const {
-  title,
-  description = 'Clark Sell - The linked list for Clark Sell on the internet.',
-  keywords = 'Clark Sell, Unspecified Software Co, systems, process, engineering, software development, AI, AI Native',
-  author = 'Clark Sell',
-  image = '/assets/Clark-Sell.png',
-  canonical = Astro.url.href,
-} = Astro.props;
-
-// Generate structured data for better AI understanding
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Clark Sell',
-  jobTitle: 'Founder, Engineer and Strategist',
-  worksFor: {
-    '@type': 'Organization',
-    name: 'Unspecified',
-  },
-  description: description,
-  url: canonical,
-  image: image,
-  sameAs: [
-    'https://twitter.com/theclarksell', // Update with real URLs
-    'https://linkedin.com/in/theclarksell',
-    'https://github.com/theclarksell',
-  ],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    email: 'hello@unspecified.io',
-    contactType: 'professional',
-  },
-};
+const { title, description, keywords, image = '/og.png', jsonLd } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
 ---
 
-<html lang="en">
+<!doctype html>
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Primary Meta Tags -->
     <title>{title}</title>
-    <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="keywords" content={keywords} />
-    <meta name="author" content={author} />
-    <meta name="robots" content="index, follow" />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta name="author" content="Clark Sell" />
     <link rel="canonical" href={canonical} />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url).href} />
+    <meta property="og:image" content={imageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="Clark.Land" />
+    <meta property="og:site_name" content="clark.land" />
     <meta property="profile:first_name" content="Clark" />
     <meta property="profile:last_name" content="Sell" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonical} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:creator" content="@theclarksell" />
 
-    <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#111827" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f0eee9" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href={interTight700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
 
-    <!-- Structured Data for AI/Search Engines -->
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(structuredData)}
-    />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
-    <!-- AI Optimization Meta Tags -->
-    <meta
-      name="ai:purpose"
-      content="Professional profile and digital hub for Clark Sell, founder and tech leader"
-    />
-    <meta name="ai:content_type" content="personal_brand_profile" />
-    <meta
-      name="ai:expertise"
-      content="technology leadership, software engineering, team building, product development"
-    />
-    <script is:inline>
-      // Prevent flash by setting theme immediately - default to dark
-      (function () {
-        const savedTheme = localStorage.getItem('theme');
-        const theme = savedTheme || 'dark'; // Always default to dark
-
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      })();
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      /* Essential base styles only */
-      html {
-        background-color: #111827; /* gray-900 - prevent flash */
-      }
-
-      html:not(.dark) {
-        background-color: #f9fafb; /* gray-50 */
-      }
-
-      body {
-        font-family:
-          Inter,
-          -apple-system,
-          BlinkMacSystemFont,
-          'Segoe UI',
-          sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-        font-feature-settings:
-          'kern' 1,
-          'liga' 1,
-          'calt' 1,
-          'cv01' 1,
-          'cv02' 1,
-          'ss01' 1;
-      }
-
-      /* Optical sizing for Bricolage Grotesque variable font */
-      .optical-display {
-        font-variation-settings: 'opsz' 48;
-      }
-      .optical-large {
-        font-variation-settings: 'opsz' 36;
-      }
-      .optical-medium {
-        font-variation-settings: 'opsz' 24;
-      }
-      .optical-small {
-        font-variation-settings: 'opsz' 16;
-      }
-
-      /* Tabular numbers for data display */
-      .tabular-nums {
-        font-feature-settings:
-          'kern' 1,
-          'liga' 1,
-          'calt' 1,
-          'tnum' 1;
-      }
-
-      /* Accessibility */
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-    </style>
+    <!-- Entrances only hide things once this has run; without JS everything is simply there. -->
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <PostHog />
   </head>
-  <body
-    class="bg-gray-50 dark:bg-gray-900 min-h-screen antialiased transition-colors duration-300"
-  >
-    <div class="container mx-auto px-4 py-8 max-w-md">
-      <slot />
-    </div>
+  <body class="min-h-dvh antialiased">
+    <slot />
+
+    <script>
+      // Name every outbound tap in PostHog: links carry data-track, otherwise the link text is used.
+      document.addEventListener('click', (e) => {
+        const a = (e.target as Element).closest?.('a');
+        if (!a) return;
+        const href = a.getAttribute('href') || '';
+        if (!/^(https?:|mailto:)/.test(href) || href.startsWith(location.origin)) return;
+        (window as any).posthog?.capture?.('link_clicked', {
+          label: a.dataset.track || a.textContent?.trim().slice(0, 60),
+          href: href.split('?')[0],
+        });
+      });
+
+      // Section entrances: each [data-in] part arrives once as it comes into view.
+      const parts = document.querySelectorAll<HTMLElement>('[data-in]');
+      if (!('IntersectionObserver' in window)) {
+        parts.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -6% 0px' },
+        );
+        parts.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>

@@ -1,9 +1,18 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), mdx()],
+  site: 'https://clark.land',
+  integrations: [mdx(), sitemap({ filter: (page) => !page.includes('/og') })],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  // Fully static: one page, no server code.
+  output: 'static',
+  // The toolbar would show up in the og.png screenshot.
+  devToolbar: { enabled: false },
 });
