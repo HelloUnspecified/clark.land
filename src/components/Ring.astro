@@ -1,22 +1,23 @@
 ---
 /**
- * Residual's mark: the app icon's ring. Ported from residual.fit's Ring.astro with the app's light-theme colors
- * baked in. Solid green is what's eaten, the dotted ghost is what's still planned, the soft zone before the tick
- * is the target range, and the dot is where the day lands.
+ * Residual's mark: the app icon's ring, in three parts. Ported from residual.fit's Ring.astro with the app's
+ * light-theme colors baked in. Solid green is what's eaten, three ghost dots are what's still planned, and the
+ * dot is where the day lands; the open stretch after it is the residual (2026-11-13, with the app icon).
  */
 interface Props {
   size?: string;
   eaten?: number;
   lands?: number;
-  zoneStart?: number;
   width?: number;
   class?: string;
 }
-const { size = '1em', eaten = 0.62, lands = 0.93, zoneStart = 0.84, width = 0.16, class: cls = '' } = Astro.props;
+const { size = '1em', eaten = 0.6, lands = 0.875, width = 0.16, class: cls = '' } = Astro.props;
 const c = 50,
-  r = 29,
+  r = 30,
   w = width * 100;
-const C = 2 * Math.PI * r;
+const planFrom = 0.655,
+  planTo = 0.835,
+  planDots = 3;
 const pt = (f: number) => {
   const a = f * 2 * Math.PI - Math.PI / 2;
   return [c + r * Math.cos(a), c + r * Math.sin(a)];
@@ -26,25 +27,14 @@ const arc = (from: number, to: number) => {
     [x2, y2] = pt(Math.min(to, from + 0.9999));
   return `M ${x1.toFixed(3)} ${y1.toFixed(3)} A ${r} ${r} 0 ${to - from > 0.5 ? 1 : 0} 1 ${x2.toFixed(3)} ${y2.toFixed(3)}`;
 };
+const dots = Array.from({ length: planDots }, (_, i) => pt(planFrom + ((planTo - planFrom) * (i + 0.5)) / planDots));
+const [lx, ly] = pt(lands);
 const eatenColor = '#057836';
 const plan = 'rgb(5 120 54 / 0.30)';
-const range = 'rgb(5 120 54 / 0.24)';
 ---
 
 <svg class={cls} viewBox="0 0 100 100" style={`width:${size};height:${size}`} aria-hidden="true">
-  <circle cx={c} cy={c} r={r} fill="none" stroke="currentColor" stroke-opacity="0.14" stroke-width={w}></circle>
-  <path d={arc(zoneStart, 1)} fill="none" stroke={range} stroke-width={w}></path>
-  <path
-    d={arc(eaten, lands)}
-    fill="none"
-    stroke={plan}
-    stroke-width={w * 0.5}
-    stroke-linecap="round"
-    stroke-dasharray={`0.01 ${(0.0455 * C).toFixed(2)}`}></path>
   <path d={arc(0, eaten)} fill="none" stroke={eatenColor} stroke-width={w} stroke-linecap="round"></path>
-  <rect x={c - 1.6} y={c - r - w * 0.75} width="3.2" height={w * 1.5} fill="currentColor"></rect>
-  <g transform={`rotate(${(lands * 360).toFixed(2)} ${c} ${c})`}>
-    <circle cx={c} cy={c - r} r={w * 0.62} fill="#ffffff"></circle>
-    <circle cx={c} cy={c - r} r={w * 0.44} fill={eatenColor}></circle>
-  </g>
+  {dots.map(([x, y]) => <circle cx={x.toFixed(3)} cy={y.toFixed(3)} r={w * 0.2} fill={plan} />)}
+  <circle cx={lx.toFixed(3)} cy={ly.toFixed(3)} r={w / 2} fill={eatenColor}></circle>
 </svg>
