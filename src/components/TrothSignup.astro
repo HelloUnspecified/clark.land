@@ -1,0 +1,89 @@
+---
+/**
+ * The Troth waitlist, on the page. Posts straight to the Loops form jointroth.co's /api/subscribe uses
+ * (Loops allows cross-origin posts) with Troth's waitlist lists and source "clark.land", so double opt-in
+ * still applies. The endpoint and list IDs come from jointroth.com: LOOPS_FORM_ENDPOINT in
+ * src/pages/api/subscribe.ts and WAITLIST_LISTS in src/lib/loops.ts. Without JS it is a GET to jointroth.co.
+ */
+interface Props {
+  site: string;
+  note?: string;
+  id?: string;
+}
+const { site, note = '', id = 'troth-email' } = Astro.props;
+const LOOPS_FORM = 'https://app.loops.so/api/newsletter-form/cmrp99o22011o0jzln10zb8mm';
+const WAITLIST_LISTS = 'cmrpalrap06m50ju5bz1a73sb,cmrpammmt08z30jzj0rl7cz2g';
+---
+
+<form class="troth-form" action={site} method="get" data-endpoint={LOOPS_FORM} data-lists={WAITLIST_LISTS} novalidate>
+  <label for={id} class="sr-only">Email address</label>
+  <div class="flex">
+    <input
+      id={id}
+      name="email"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      autocapitalize="off"
+      spellcheck="false"
+      enterkeyhint="send"
+      placeholder="Your email"
+      required
+      class="h-12 min-w-0 flex-1 bg-surface-2 px-4 text-body text-ink placeholder:text-soft focus:bg-ground focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+    />
+    <button
+      type="submit"
+      class="h-12 shrink-0 bg-accent px-5 text-body font-semibold text-white transition-[background-color,transform] duration-150 ease-[var(--ease-out)] hover:bg-accent-deep active:scale-[0.97] disabled:opacity-60"
+    >
+      Join the waitlist
+    </button>
+  </div>
+  <p class="troth-msg mt-2 text-small text-soft empty:hidden" role="status" aria-live="polite">{note}</p>
+</form>
+
+<script>
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  document.querySelectorAll<HTMLFormElement>('.troth-form').forEach((form) => {
+    const input = form.querySelector('input')!;
+    const button = form.querySelector('button')!;
+    const msg = form.querySelector<HTMLElement>('.troth-msg')!;
+    const say = (text: string, error = false) => {
+      msg.textContent = text;
+      msg.classList.toggle('text-accent', error);
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!EMAIL.test(email)) {
+        say("That email doesn't look right. Mind checking it?", true);
+        input.focus();
+        return;
+      }
+      const label = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      try {
+        const body = new URLSearchParams({ email, source: 'clark.land', mailingLists: form.dataset.lists! });
+        const res = await fetch(form.dataset.endpoint!, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success !== false) {
+          form.innerHTML =
+            '<p class="text-body text-ink" role="status">You’re on the list. Check your inbox to confirm, then tell your spouse.</p>';
+          (window as any).posthog?.capture?.('troth_waitlist_signup', { source: 'clark.land' });
+          return;
+        }
+        say(res.status === 429 ? 'Too many tries. Wait a minute and try again.' : 'Something went wrong on our end. Try again?', true);
+      } catch {
+        say("Couldn't reach the server. Check your connection and try again.", true);
+      }
+      button.disabled = false;
+      button.textContent = label;
+    });
+  });
+</script>

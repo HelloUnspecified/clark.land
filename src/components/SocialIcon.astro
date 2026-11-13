@@ -1,0 +1,23 @@
+---
+/**
+ * A brand glyph from Tabler Icons (MIT, @tabler/icons, outline set), inlined at build time so it inherits
+ * the link's colour. Only the six accounts in clark.mdx are bundled.
+ */
+interface Props {
+  name: 'instagram' | 'linkedin' | 'x' | 'threads' | 'tiktok' | 'youtube';
+  class?: string;
+}
+const { name, class: className = '' } = Astro.props;
+
+const svgs = import.meta.glob(
+  '/node_modules/@tabler/icons/icons/outline/brand-{instagram,linkedin,x,threads,tiktok,youtube}.svg',
+  { query: '?raw', import: 'default', eager: true },
+) as Record<string, string>;
+const raw = svgs[`/node_modules/@tabler/icons/icons/outline/brand-${name}.svg`];
+if (!raw) throw new Error(`No Tabler icon for ${name}`);
+const svg = raw
+  .replace(/\s(width|height|class)="[^"]*"/g, '')
+  .replace('<svg', `<svg class="${className}" aria-hidden="true" focusable="false"`);
+---
+
+<Fragment set:html={svg} />

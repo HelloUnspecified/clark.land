@@ -51,6 +51,12 @@
   posthog.init('phc_bRFs0WeNw8RnmlWJrFshQfA6LJy61c0YsYz3h8B2Tyj', {
     api_host: 'https://us.i.posthog.com',
     defaults: '2025-05-24',
-    person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    person_profiles: 'identified_only',
+    // A one-page link site needs page views and named link taps (Layout.astro), nothing heavier.
+    autocapture: false,
+    capture_dead_clicks: false,
+    disable_session_recording: true,
+    disable_surveys: true,
+    capture_performance: false,
   });
 </script>
